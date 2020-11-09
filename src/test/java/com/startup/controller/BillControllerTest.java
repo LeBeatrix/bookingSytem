@@ -29,6 +29,7 @@ public class BillControllerTest {
     private String SECURITY_USERNAME = "Michael_ADMIN";
     private String SECURITY_PASSWORD = "321";
 
+
     @Autowired
     private TestRestTemplate restTemplate;
     private String baseURL = "http://localhost:8080/bookingSystem/bill/";
