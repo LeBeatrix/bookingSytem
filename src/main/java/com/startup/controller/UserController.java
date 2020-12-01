@@ -2,6 +2,7 @@ package com.startup.controller;
 
 import com.startup.entity.User;
 import com.startup.factory.UserFactory;
+import com.startup.service.impl.UserService;
 import com.startup.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +28,21 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
+    @GetMapping("/form")
+    public String userForm(Model model) {
+        model.addAttribute("userForm", new User());
+        model.addAttribute("roles", userService.roleList());
+        return "user/form";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editUser(@PathVariable Long id, Model model){
+        model.addAttribute("userForm", userService.findOne(id));
+        model.addAttribute("roles", userService.roleList());
+        return "user/form";
+    }
+
+
     @GetMapping("/list")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public String userList(Model model){
@@ -34,24 +50,35 @@ public class UserController {
         return "user/list";
     }
 
+    @GetMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String deleteUser(@PathVariable Long id, Model model){
+        model.addAttribute("message", userService.delete(id));
+        return "messages";
+    }
+
+    @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String addUser(@ModelAttribute User user, Model model) {
+        String message="";
+        if(user.getId() == null){
+            message = "added";
+        } else {
+            message = "updated";
+        }
+        model.addAttribute("message", userService.addUser(user).getUsername() + " " + message + " add successfull");
+        return "messages";
+    }
 
     @GetMapping("/list/{id}")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public User findById(@PathVariable Long id){
+    public User findUser(@PathVariable Long id){
         return userService.findById(id);
     }
 
-    @RequestMapping("/add")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public User addUser(@RequestBody User user){
-        return userService.addUser(user);
-    }
 
-    @RequestMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String deleteUser(Long id){
-        return userService.deleteById(id);
-    }
+
+
 
 
 //    @RequestMapping

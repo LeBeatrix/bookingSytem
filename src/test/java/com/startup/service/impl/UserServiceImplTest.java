@@ -23,7 +23,7 @@ public class UserServiceImplTest {
 
     @Test
     public void d_getAll() {
-//        System.out.println("Get all : " + service.getAll());
+        System.out.println("Get all : " + service.getAll());
     }
 
     @Test

@@ -7,6 +7,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * @author Yamkela Mbali
+ * desc : Entity for User
+ */
+
 @Entity
 public class User extends AbstractPersistable<Long> {
     private String userId ;
@@ -23,9 +28,6 @@ public class User extends AbstractPersistable<Long> {
 
     @OneToMany(targetEntity = Bill.class, mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Bill> bills;
-
-    @OneToMany(targetEntity = Appointment.class, mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Appointment> appointments;
 
     public User(){}
 
@@ -74,6 +76,14 @@ public class User extends AbstractPersistable<Long> {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Set<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(Set<Bill> bills) {
+        this.bills = bills;
     }
 
     @Override

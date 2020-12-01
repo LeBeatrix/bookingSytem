@@ -23,9 +23,15 @@
         <div class="">
             <a href="${path}/user/list">User list</a>
         </div>
+        <div class="">
+            <a href="${path}/user/form">Create User</a>
+        </div>
 
         <div class="">
             <a href="${path}/appointment/list">Appointment List</a>
+        </div>
+        <div class="">
+            <a href="${path}/appointment/form">Create Appointment</a>
         </div>
 
         <div class="">

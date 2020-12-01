@@ -2,14 +2,14 @@ package com.startup.service.impl;
 /**
  * @author Yamkela Mbali
  */
+import com.startup.Repository.impl.RoleRepository;
 import com.startup.Repository.impl.UserRepository;
+import com.startup.entity.Role;
 import com.startup.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,15 +17,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public List<User> userList() {
         return this.repository.findAll();
     }
-
-//    @Override
-//    public User findOne(Long id) {
-//        return this.repository.findOne(id);
-//    }
 
     @Override
     public User findById(Long id) {
@@ -33,7 +31,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findOne(Long id) {
+        return null;
+    }
+
+    @Override
     public User addUser(User user) {
+        user.setRole(roleRepository.findById(user.getRole().getId()).orElse(null));
         return this.repository.save(user);
     }
 
@@ -42,6 +46,24 @@ public class UserServiceImpl implements UserService {
         this.repository.deleteById(id);
         return "{'message':'User deleted successfully'}";
     }
+
+    @Override
+    public String delete(Long id) {
+        this.repository.deleteById(id);
+        return "{'message':'User deleted successfully'}";
+    }
+
+    @Override
+    public List<Role> roleList() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public String getAll() {
+        return null;
+    }
+
+
 
 
 //    @Override

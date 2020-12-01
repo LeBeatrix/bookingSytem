@@ -3,12 +3,12 @@ package com.startup.entity;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Lene Prinsloo
@@ -18,6 +18,7 @@ import java.util.Objects;
 @Entity
 public class Appointment extends AbstractPersistable<Long> {
 
+    private transient Long id;
     private String appointID;
     private String patientNo;
     private String docID;
@@ -28,7 +29,7 @@ public class Appointment extends AbstractPersistable<Long> {
     @JoinColumn(name = "user_id")
     private User user;
 
-    protected Appointment(){}
+    public Appointment(){}
 
     public Appointment(Builder builder){
         this.appointID = builder.appointID;
@@ -56,6 +57,15 @@ public class Appointment extends AbstractPersistable<Long> {
         this.user = user;
     }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public String toString(){
@@ -66,6 +76,9 @@ public class Appointment extends AbstractPersistable<Long> {
                 ", appointDate='" + localDate + '\'' +
                 ", localTime='" + localTime + '\'' +
                 '}';
+    }
+
+    public void setUser(Optional<User> byId) {
     }
 
     public static class Builder{

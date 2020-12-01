@@ -1,9 +1,12 @@
 package com.startup.controller;
 
 import com.startup.entity.Bill;
+import com.startup.entity.User;
 import com.startup.factory.BillFactory;
 import com.startup.service.impl.BillServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,10 +19,19 @@ public class BillController {
     @Autowired
     public BillServiceImpl billService;
 
-    @RequestMapping("/list")
-    public List<Bill> billList(){
-      return billService.billList();
+    @GetMapping("/list")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    public String billList(Model model){
+        model.addAttribute("bills", billService.billList());
+        return "bill/list";
     }
+
+    @GetMapping("/form")
+    public String billForm(Model model) {
+        model.addAttribute("billForm", new Bill());
+        return "bill/form";
+    }
+
 
     @RequestMapping("/list/{id}")
     public Bill findById(@PathVariable Long id){

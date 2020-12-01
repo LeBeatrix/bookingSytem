@@ -6,8 +6,11 @@ package com.startup.controller;
 
 import com.startup.entity.Appointment;
 import com.startup.entity.Bill;
+import com.startup.entity.User;
 import com.startup.factory.AppointmentFactory;
 import com.startup.service.impl.AppointmentServiceImpl;
+import com.startup.service.impl.UserService;
+import com.startup.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,22 @@ public class AppointmentController {
     @Autowired
     private AppointmentServiceImpl appointmentService;
 
+    @Autowired
+    private UserServiceImpl userService;
+
+    @Autowired
+    public AppointmentController(AppointmentServiceImpl appointmentService, UserServiceImpl userService){
+        this.appointmentService = appointmentService;
+        this.userService = userService;
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editAppointment(@PathVariable Long id, Model model){
+        model.addAttribute("appointmentForm", appointmentService.findById(id));
+        model.addAttribute("users", userService.userList());
+        return "appointment/form";
+    }
+
     @GetMapping("/list")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public String appointmentList(Model model){
@@ -31,14 +50,24 @@ public class AppointmentController {
         return "appointment/list";
     }
 
+    @GetMapping("/form")
+    public String appointmentForm(Model model) {
+        model.addAttribute("appointmentForm", new Appointment());
+        model.addAttribute("users", userService.userList());
+        return "appointment/form";
+    }
+
     @RequestMapping("/list/{id}")
     public Appointment findById(@PathVariable Long id){
         return appointmentService.findById(id);
     }
 
-    @RequestMapping("/create")
-    public Appointment createBill(@RequestBody Appointment appointment){
-        return appointmentService.createAppointment(appointment);
+
+    @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String createAppointment(@ModelAttribute Appointment appointment, Model model) {
+        model.addAttribute("message", appointmentService.createAppointment(appointment).getUser().getUsername() + " add successfull");
+        return "message";
     }
 
     @RequestMapping("/delete/{id}")
@@ -53,11 +82,11 @@ public class AppointmentController {
 
 
 
-    @PostMapping("/create")
-    public Appointment a_create (@RequestBody Appointment appointment){
-        Appointment newAppointment = AppointmentFactory.createAppointment(appointment.getAppointID(), appointment.getPatientNo(), appointment.getDocID(), appointment.getLocalDate(), appointment.getLocalTime());
-        return appointmentService.create(newAppointment);
-    }
+//    @PostMapping("/create")
+//    public Appointment a_create (@RequestBody Appointment appointment){
+//        Appointment newAppointment = AppointmentFactory.createAppointment(appointment.getAppointID(), appointment.getPatientNo(), appointment.getDocID(), appointment.getLocalDate(), appointment.getLocalTime());
+//        return appointmentService.create(newAppointment);
+//    }
 
     @GetMapping("/all")
     public Set<Appointment> d_getAll(){
@@ -74,8 +103,8 @@ public class AppointmentController {
         return appointmentService.update(address);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public boolean e_delete(@PathVariable String id){
-        return appointmentService.delete(id);
-    }
+//    @DeleteMapping("/delete/{id}")
+//    public boolean e_delete(@PathVariable String id){
+//        return appointmentService.delete(id);
+//    }
 }

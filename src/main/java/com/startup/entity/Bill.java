@@ -21,7 +21,7 @@ public class Bill extends AbstractPersistable<Long> {
     private User user;
 
 
-    protected Bill(){}
+    public Bill(){}
 
     private Bill(Builder builder){
         this.billNo = builder.billNo;

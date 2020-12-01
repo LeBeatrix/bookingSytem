@@ -26,42 +26,4 @@ public class Role extends AbstractPersistable<Long> {
         this.name = name;
     }
 
-//    public Role(Set<User> users){
-//        this.users = users;
-//    }
-
-//    private Role(Role.Builder builder){
-//        this.name = builder.name;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Role{" +
-//                    "name='" + name +
-//                '}';
-//    }
-//
-//    public static class Builder {
-//
-//        private String name;
-//
-//        public Role.Builder setName(String name) {
-//            this.name = name;
-//            return this;
-//        }
-//
-//
-//
-//        public Role.Builder copy(Role role){
-//            this.name = role.name;
-//
-//            return this;
-//        }
-//
-//        public Role build(){
-//            return new Role(this);
-//        }
-
- //   }
-
 }

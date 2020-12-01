@@ -15,14 +15,14 @@ public class UserFactory {
     public static User createUser(String username, String password, String name, String surname, String cellNo, String emailAddress ){
 
         String userId = String.valueOf(GenericHelper.generateId());
-        User user = new User.Builder().setUserId(userId)
-                .setUsername(username)
-                .setPassword(password)
-                .setName(name)
-                .setSurName(surname)
-                .setCellNo(cellNo)
-                .setEmailAddress(emailAddress)
-                .build();
-        return user;
+//        User user = new setUserId(userId)
+//                .setUsername(username)
+//                .setPassword(password)
+//                .setName(name)
+//                .setSurName(surname)
+//                .setCellNo(cellNo)
+//                .setEmailAddress(emailAddress)
+//                .build();
+        return null;
     }
 }

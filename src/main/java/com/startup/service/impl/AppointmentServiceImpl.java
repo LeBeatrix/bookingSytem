@@ -2,6 +2,7 @@ package com.startup.service.impl;
 
 import com.startup.Repository.impl.AppointmentRepository;
 
+import com.startup.Repository.impl.UserRepository;
 import com.startup.entity.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
    @Autowired
     private AppointmentRepository repository;
+   @Autowired
+   private UserRepository userRepository;
 
 
     @Override
@@ -33,6 +36,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment createAppointment(Appointment appointment) {
+        appointment.setUser(userRepository.findById(appointment.getUser().getId()));
         return this.repository.save(appointment);
     }
 
