@@ -7,7 +7,7 @@ import com.startup.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,20 +18,63 @@ public class UserServiceImpl implements UserService {
     private UserRepository repository;
 
     @Override
-    public Set<User> getAll() {
+    public List<User> userList() {
+        return this.repository.findAll();
+    }
 
-        return this.repository.findAll().stream().collect(Collectors.toSet());
+//    @Override
+//    public User findOne(Long id) {
+//        return this.repository.findOne(id);
+//    }
+
+    @Override
+    public User findById(Long id) {
+        return this.repository.findById(id).get();
     }
 
     @Override
-    public User create(User user) {
+    public User addUser(User user) {
+        return this.repository.save(user);
+    }
 
+    @Override
+    public String deleteById(Long id) {
+        this.repository.deleteById(id);
+        return "{'message':'User deleted successfully'}";
+    }
+
+
+//    @Override
+//    public Set<User> getAll() {
+//        return this.repository.findAll().stream().collect(Collectors.toSet());
+//    }
+//
+//    @Override
+//    public User getUserById(String id) {
+//        return this.repository.findById(id).get();
+//    }
+//
+//    @Override
+//    public void createUser(User user) {
+//        this.repository.save(user);
+//    }
+//
+//    @Override
+//    public void deleteUserById(String id) {
+//        this.repository.deleteById(id);
+//    }
+
+
+
+
+    @Override
+    public User create(User user) {
         return this.repository.save(user);
     }
 
     @Override
     public User read(String s) {
-        return this.repository.findById(s).orElse(null);
+        return null;
     }
 
     @Override
@@ -42,9 +85,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean delete(String s) {
-
-        this.repository.deleteById(s);
-        if (this.repository.existsById(s)) return false;
-        else return true;
+        return false;
     }
+
+
+
+//    @Override
+//    public boolean delete(String s) {
+//
+//        this.repository.deleteById(s);
+//        if (this.repository.existsById(s)) return false;
+//        else return true;
+//    }
 }

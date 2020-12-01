@@ -1,7 +1,11 @@
 package com.startup.entity;
 
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -12,18 +16,19 @@ import java.util.Objects;
  */
 
 @Entity
-public class Appointment {
+public class Appointment extends AbstractPersistable<Long> {
 
-    @Id
     private String appointID;
     private String patientNo;
     private String docID;
     private LocalDate localDate;
     private LocalTime localTime;
 
-    protected Appointment(){
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    }
+    protected Appointment(){}
 
     public Appointment(Builder builder){
         this.appointID = builder.appointID;
@@ -42,6 +47,14 @@ public class Appointment {
     public LocalDate getLocalDate(){ return localDate;}
 
     public LocalTime getLocalTime(){ return localTime;}
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 
     @Override

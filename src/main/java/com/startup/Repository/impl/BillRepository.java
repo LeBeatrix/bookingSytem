@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface BillRepository extends JpaRepository<Bill, String> {
+public interface BillRepository extends JpaRepository<Bill, Long> {
 }

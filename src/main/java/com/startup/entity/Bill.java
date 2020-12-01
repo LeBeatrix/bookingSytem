@@ -1,18 +1,25 @@
 package com.startup.entity;
 
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.io.Serializable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.Objects;
 
 @Entity
-public class Bill {
+public class Bill extends AbstractPersistable<Long> {
 
-    @Id
     private String billNo;
     private String appointId;
     private String patientId;
     private String amount;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     protected Bill(){}
 
@@ -39,6 +46,12 @@ public class Bill {
         return amount;
     }
 
+    public User getUser() { return user;}
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "Bill{" +
@@ -50,7 +63,7 @@ public class Bill {
     }
 
     public static class Builder {
-        private String billNo, appointId, patientId, amount;
+        private String billNo, appointId, patientId, userId, amount;
 
         public Builder setBillNo(String billNo){
             this.billNo = billNo;
@@ -66,6 +79,12 @@ public class Bill {
             this.patientId = patientId;
             return this;
         }
+
+        public Builder setUserId(String userId){
+            this.userId = userId;
+            return this;
+        }
+
         public Builder setAmount(String amount){
             this.amount = amount;
             return this;

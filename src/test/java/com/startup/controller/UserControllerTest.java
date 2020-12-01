@@ -25,12 +25,12 @@ import static org.junit.Assert.*;
 public class UserControllerTest {
 
     private static User user = UserFactory.createUser("BoogyMan", "JW1243", "John", "Wick", "087123457", "test@gmail.com");
-    private static String SECURITY_USERNAME = "lenep";
-    private static String SECURITY_PASSWORD = "password";
+    private static String SECURITY_USERNAME = "Admin";
+    private static String SECURITY_PASSWORD = "admin123";
 
     @Autowired
     private TestRestTemplate restTemplate;
-    private String baseURL = "http://localhost:8080/user/";
+    private String baseURL = "http://localhost:8080/bookingSystem/user/";
 
     @Test
     public void a_create() {

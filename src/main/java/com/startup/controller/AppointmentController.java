@@ -5,19 +5,53 @@ package com.startup.controller;
  */
 
 import com.startup.entity.Appointment;
+import com.startup.entity.Bill;
 import com.startup.factory.AppointmentFactory;
 import com.startup.service.impl.AppointmentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
-@RestController
+@Controller
 @RequestMapping("/appointment")
 public class AppointmentController {
 
     @Autowired
     private AppointmentServiceImpl appointmentService;
+
+    @GetMapping("/list")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    public String appointmentList(Model model){
+        model.addAttribute("appointments", appointmentService.appointmentList());
+        return "appointment/list";
+    }
+
+    @RequestMapping("/list/{id}")
+    public Appointment findById(@PathVariable Long id){
+        return appointmentService.findById(id);
+    }
+
+    @RequestMapping("/create")
+    public Appointment createBill(@RequestBody Appointment appointment){
+        return appointmentService.createAppointment(appointment);
+    }
+
+    @RequestMapping("/delete/{id}")
+    public String deleteById(@PathVariable Long id){
+        return appointmentService.deleteById(id);
+    }
+
+
+
+
+
+
+
 
     @PostMapping("/create")
     public Appointment a_create (@RequestBody Appointment appointment){

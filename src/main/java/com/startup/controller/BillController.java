@@ -6,14 +6,42 @@ import com.startup.service.impl.BillServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/bookingSystem/bill")
+@RequestMapping("/bill")
 public class BillController {
 
     @Autowired
     public BillServiceImpl billService;
+
+    @RequestMapping("/list")
+    public List<Bill> billList(){
+      return billService.billList();
+    }
+
+    @RequestMapping("/list/{id}")
+    public Bill findById(@PathVariable Long id){
+        return billService.findById(id);
+    }
+
+    @RequestMapping("/create")
+    public Bill createBill(@RequestBody Bill bill){
+        return billService.createBill(bill);
+    }
+
+    @RequestMapping("/delete/{id}")
+    public String deleteById(@PathVariable Long id){
+        return billService.deleteById(id);
+    }
+
+
+
+
+
+
+
 
     @PostMapping(value = "/generate")
     public Bill create(@RequestBody Bill bill){

@@ -1,28 +1,40 @@
 package com.startup.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.io.Serializable;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
-/**
- * @author Yamkela Mbali
- * desc : Entity for User
- */
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
-public class User{
-    @Id
+public class User extends AbstractPersistable<Long> {
+    private String userId ;
     private String username;
-    private String password, userId, name, surname, cellNo, emailAddress;
+    private String firstname;
+    private String surname;
+    private String cellNo;
+    private String emailAddress;
+    private String password;
 
-    protected User(){}
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    @OneToMany(targetEntity = Bill.class, mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Bill> bills;
+
+    @OneToMany(targetEntity = Appointment.class, mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Appointment> appointments;
+
+    public User(){}
 
     private User(Builder builder){
         this.username = builder.username;
         this.password = builder.password;
         this.userId = builder.userId;
-        this.name = builder.name;
-        this.surname = builder.name;
+        this.firstname = builder.firstname;
+        this.surname = builder.surname;
         this.cellNo = builder.cellNo;
         this.emailAddress = builder.emailAddress;
 
@@ -41,7 +53,7 @@ public class User{
     }
 
     public String getName() {
-        return name;
+        return firstname;
     }
 
     public String getSurname() {
@@ -56,7 +68,13 @@ public class User{
         return emailAddress;
     }
 
+    public Role getRole() {
+        return role;
+    }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @Override
     public String toString() {
@@ -64,7 +82,7 @@ public class User{
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", userId='" + userId + '\'' +
-                ", name='" + name + '\'' +
+                ", name='" + firstname + '\'' +
                 ", surname='" + surname + '\'' +
                 ", cellNo='" + cellNo + '\'' +
                 ", emailAddress='" + emailAddress + '\'' +
@@ -74,7 +92,7 @@ public class User{
 
     public static class Builder {
 
-        private String username, password, userId, name, surname, cellNo, emailAddress, loginStatus;
+        private String username, password, userId, firstname, surname, cellNo, emailAddress, loginStatus;
 
         public Builder setUsername(String username) {
             this.username = username;
@@ -86,7 +104,7 @@ public class User{
         }
 
         public Builder setName(String name) {
-            this.name = name;
+            this.firstname = name;
             return this;
         }
         public Builder setSurName(String surname) {
@@ -115,7 +133,7 @@ public class User{
         public Builder copy(User user){
             this.username = user.username;
             this.password = user.password;
-            this.name = user.name;
+            this.firstname = user.firstname;
             this.surname = user.surname;
             this.userId = user.userId;
             this.cellNo = user.cellNo;

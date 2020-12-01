@@ -29,7 +29,9 @@ import static org.junit.Assert.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AppointmentControllerTest {
 
-
+    private static Appointment appointment = AppointmentFactory.createAppointment("0706CP071401", "CP071401", "Harding0411", LocalDate.of(2020,8,25), LocalTime.of(15,0) );
+    private String SECURITY_USERNAME = "Michael_ADMIN";
+    private String SECURITY_PASSWORD = "321";
 
     @Autowired
     private TestRestTemplate restTemplate = new TestRestTemplate();

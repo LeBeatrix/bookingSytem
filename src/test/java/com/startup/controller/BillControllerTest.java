@@ -26,8 +26,8 @@ import static org.junit.Assert.*;
 public class BillControllerTest {
 
     private static Bill bill = BillFactory.generateBill("120456", "54778888", "1500");
-    private String SECURITY_USERNAME = "Michael_ADMIN";
-    private String SECURITY_PASSWORD = "321";
+    private String SECURITY_USERNAME = "Admin";
+    private String SECURITY_PASSWORD = "admin123";
 
 
     @Autowired

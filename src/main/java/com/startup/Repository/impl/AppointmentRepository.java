@@ -9,4 +9,4 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface AppointmentRepository extends JpaRepository<Appointment, String> {}
+public interface AppointmentRepository extends JpaRepository<Appointment, Long> {}
